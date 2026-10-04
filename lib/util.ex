@@ -3,19 +3,19 @@ defmodule Util do
   Utility functions for application
   """
 
-  def create_folder(name, path, %{simulated: sim, verbosity: v} = _flags) do
-    "Creating Folder: #{path}/#{name}"
+  def create_folder(path, %{simulated: sim, verbosity: v} = _flags) do
+    "Creating Folder: #{path}"
     |> sim_adder(sim)
     |> oprint(v, 1)
 
     case sim do
-      false -> File.mkdir("#{path}/#{name}")
+      false -> File.mkdir_p(path)
       _ -> {:info, "Command run in sim mode - not created."}
     end
   end
 
   def create_folders(folder_list, flags) do
-    Enum.map(folder_list, fn {path, name} -> create_folder(name, path, flags) end)
+    Enum.map(folder_list, fn path -> create_folder(path, flags) end)
   end
 
   @doc """
@@ -29,6 +29,8 @@ defmodule Util do
       IO.puts(msg)
     end
   end
+
+  def daily_name(), do: "0. Daily"
 
   def sim_adder(msg, true = _sim) do
     msg <> " (SIMULATED)"
