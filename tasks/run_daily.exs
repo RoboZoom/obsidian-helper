@@ -7,6 +7,6 @@ args = System.argv() |> IO.inspect()
 
 path = Tasks.RunDaily.get_path(args)
 
-flags = %{simulated: true, verbosity: 1}
+flags = %{simulated: false, verbosity: 1}
 
 Subcommands.Daily.build_daily_folders(path, flags)
